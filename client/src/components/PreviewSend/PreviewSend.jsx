@@ -18,7 +18,7 @@ function PreviewSend({ selectedCandidates, selectedTemplate, emailConfig }) {
   const handleSend = async () => {
     setSending(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/email/send', {
+      const res = await axios.post('${import.meta.env.VITE_API_URL}/api/email/send', {
         candidates: selectedCandidates,
         subject: emailConfig.subject,
         body: emailConfig.body,
