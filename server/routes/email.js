@@ -3,6 +3,8 @@ const router = express.Router();
 const transporter = require('../utils/mailer');
 
 router.post('/send', async (req, res) => {
+  console.log('Request received:', req.body?.candidate?.email); // ADD
+  console.log('pdfBase64 length:', req.body?.pdfBase64?.length); // ADD
   const { candidate, subject, body, pdfBase64 } = req.body;
 
   try {
