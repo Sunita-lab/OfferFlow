@@ -25,6 +25,7 @@ function PreviewSend({ selectedCandidates, selectedTemplate, emailConfig }) {
       try {
         // PDF generate karo
         const pdfBuffer = generatePdf(candidate, selectedTemplate.id);
+        console.log('PDF size KB:', pdfBuffer.byteLength / 1024); //line added for debugging PDF size
         const pdfBase64 = btoa(
           new Uint8Array(pdfBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
         );
