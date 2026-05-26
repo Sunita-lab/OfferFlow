@@ -1,0 +1,6 @@
+name,email,phone,organization,registration_date,attendance_status,AICTE_code,duration,mode,internship_name,partner_name,role,start_date,status,payment_status
+Rahul Sharma,rahul.sharma@gmail.com,9876543210,ABC Private Ltd,2026-05-20,Present,AICTE1023,6 Months,Remote,AI Research Internship,TechCorp,AI Intern,2026-06-01,Approved,Paid
+Priya Das,priya.das@gmail.com,9123456780,ABC Private Ltd,2026-05-18,Present,AICTE2045,3 Months,Hybrid,Frontend Development Internship,CodeLabs,Frontend Intern,2026-06-10,Approved,Paid
+Aman Verma,aman.verma@gmail.com,9988776655,ABC Private Ltd,2026-05-16,Absent,AICTE3098,2 Months,Onsite,Backend Engineering Internship,DevSolutions,Backend Intern,2026-06-15,Pending,Unpaid
+Sneha Patnaik,sneha.patnaik@gmail.com,9090909090,ABC Private Ltd,2026-05-12,Present,AICTE4501,4 Months,Remote,Data Science Internship,InsightAI,Data Science Intern,2026-07-01,Approved,Paid
+Arjun Nair,arjun.nair@gmail.com,9871234567,ABC Private Ltd,2026-05-10,Present,AICTE5678,5 Months,Hybrid,Machine Learning Internship,FutureTech,ML Intern,2026-06-20,Approved,Paid
