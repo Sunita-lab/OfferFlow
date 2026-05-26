@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { generatePdf } from '../../utils/generatePdf';
-import { template1 } from '../../templates/template1';
-import { template2 } from '../../templates/template2';
-import { template3 } from '../../templates/template3';
 
-const templateMap = { 1: template1, 2: template2, 3: template3 };
+
 
 const templateStyles = {
   1: { bg: '#F4F3FF', accent: '#6C63FF' },
@@ -20,40 +17,41 @@ function PreviewSend({ selectedCandidates, selectedTemplate, emailConfig }) {
   const [done, setDone] = useState(false);
 
   const style = templateStyles[selectedTemplate?.id] || {};
-
   const handleSend = async () => {
     setSending(true);
-    const templateFn = templateMap[selectedTemplate.id];
-    const results = [];
+    const newResults = [];
 
     for (const candidate of selectedCandidates) {
       try {
-        // PDF frontend pe generate karo
-        const html = templateFn(candidate);
-        const pdfBuffer = await generatePdf(html, candidate);
+        // PDF generate karo
+        const pdfBuffer = generatePdf(candidate, selectedTemplate.id);
         const pdfBase64 = btoa(
           new Uint8Array(pdfBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
         );
 
         // Server ko bhejo
-        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/email/send`, {
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/email/send`, {
           candidate,
           subject: emailConfig.subject,
           body: emailConfig.body,
           pdfBase64,
         });
 
-        results.push({ email: candidate.email, status: 'sent' });
+        newResults.push({ email: candidate.email, status: 'sent' });
 
       } catch (err) {
-        results.push({ email: candidate.email, status: 'failed', error: err.message });
+        newResults.push({ email: candidate.email, status: 'failed', error: err.message });
       }
     }
 
-    setResults(results);
+    setResults(newResults);
     setDone(true);
     setSending(false);
   };
+
+  
+
+    
 
   return (
     <div className="preview-container">
