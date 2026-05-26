@@ -16,6 +16,7 @@ function PreviewSend({ selectedCandidates, selectedTemplate, emailConfig }) {
   const style = templateStyles[selectedTemplate?.id] || {};
 
   const handleSend = async () => {
+    console.log('API URL:', import.meta.env.VITE_API_URL);
     setSending(true);
     try {
       const res = await axios.post('${import.meta.env.VITE_API_URL}/api/email/send', {
@@ -104,6 +105,7 @@ function PreviewSend({ selectedCandidates, selectedTemplate, emailConfig }) {
           </div>
         </div>
       </div>
+      
 
       {/* Send Button */}
       {!done ? (
