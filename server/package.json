@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "build": "npx puppeteer browsers install chrome"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -17,7 +15,6 @@
     "csv-parse": "^6.2.1",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "jspdf": "^4.2.1",
     "multer": "^2.1.1",
     "nodemailer": "^8.0.8",
     "puppeteer": "^25.0.4"

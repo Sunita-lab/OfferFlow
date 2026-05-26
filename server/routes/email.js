@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const transporter = require('../utils/mailer');
-const { jsPDF } = require('jspdf');
+const puppeteer = require('puppeteer');
 const template1 = require('../templates/template1');
 const template2 = require('../templates/template2');
 const template3 = require('../templates/template3');
@@ -16,29 +16,27 @@ router.post('/send', async (req, res) => {
     return res.status(400).json({ error: 'Invalid templateId' });
   }
 
+  // ✅ Browser ek baar launch
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
+
   const results = [];
 
   for (const candidate of candidates) {
     try {
-      // PDF generate karo
-      const doc = new jsPDF();
-      
-      doc.setFontSize(20);
-      doc.text('ABC PRIVATE LTD', 20, 20);
-      doc.setFontSize(12);
-      doc.text(`Dear ${candidate.name},`, 20, 40);
-      doc.text(`Role: ${candidate.role}`, 20, 55);
-      doc.text(`Internship: ${candidate.internship_name}`, 20, 65);
-      doc.text(`Start Date: ${candidate.start_date}`, 20, 75);
-      doc.text(`Duration: ${candidate.duration}`, 20, 85);
-      doc.text(`Mode: ${candidate.mode}`, 20, 95);
-      doc.text(`Organization: ${candidate.organization}`, 20, 105);
-      doc.text(`AICTE Code: ${candidate.AICTE_code || 'N/A'}`, 20, 115);
-      doc.text('We look forward to having you on board.', 20, 135);
-      doc.text('Regards,', 20, 155);
-      doc.text('ABC Private Ltd', 20, 165);
+      // ✅ Template backend generate kare
+      const html = templateFn(candidate);
 
-      const pdf = Buffer.from(doc.output('arraybuffer'));
+      const page = await browser.newPage();
+      await page.setContent(html, { waitUntil: 'networkidle0' });
+      const pdf = await page.pdf({
+        format: 'A4',
+        printBackground: true,
+        margin: { top: '20px', bottom: '20px', left: '20px', right: '20px' }
+      });
+      await page.close(); // ✅ browser nahi, sirf page close
 
       const populatedSubject = subject
         .replace(/{{name}}/g, candidate.name)
@@ -52,7 +50,7 @@ router.post('/send', async (req, res) => {
         from: process.env.SMTP_USER,
         to: candidate.email,
         subject: populatedSubject,
-        html: populatedBody,
+        html: populatedBody, // ✅ html, not text
         attachments: [{
           filename: `offer-letter-${candidate.name}.pdf`,
           content: pdf,
@@ -67,6 +65,7 @@ router.post('/send', async (req, res) => {
     }
   }
 
+  await browser.close(); // ✅ loop ke baad close
   res.json({ results });
 });
 
