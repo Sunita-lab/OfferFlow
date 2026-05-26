@@ -41,7 +41,7 @@ ABC Private Ltd Team`
 
   const handleNext = () => {
     if (!selectedTemplate) {
-      alert('Pehle ek template choose karo!');
+      alert('Please select a template!');
       return;
     }
     setEmailConfig({ subject: localSubject, body: localBody });
@@ -51,7 +51,7 @@ ABC Private Ltd Team`
   return (
     <div className="template-container">
       <h2>Choose Template</h2>
-      <p className="subtitle">Offer letter ka design choose karo</p>
+      <p className="subtitle">Select a template for your offer letter</p>
 
       <div className="template-grid">
         {templates.map(t => (
@@ -76,8 +76,8 @@ ABC Private Ltd Team`
       </div>
 
       <div className="email-config">
-        <h3>Email Customize karo</h3>
-        <p className="hint">Use karo: {`{{name}}, {{role}}, {{start_date}}, {{duration}}`}</p>
+        <h3>Email Customize</h3>
+        <p className="hint">Use placeholders: {`{{name}}, {{role}}, {{start_date}}, {{duration}}`}</p>
 
         <label>Subject</label>
         <input

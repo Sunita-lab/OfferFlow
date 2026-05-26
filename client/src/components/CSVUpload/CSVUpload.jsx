@@ -8,7 +8,7 @@ function CSVUpload({ setCandidates, setStep }) {
 
   const handleFile = async (file) => {
     if (!file || !file.name.endsWith('.csv')) {
-      setError('Sirf CSV file upload karo!');
+      setError('Only CSV files are allowed!');
       return;
     }
 
@@ -19,7 +19,7 @@ function CSVUpload({ setCandidates, setStep }) {
       setError('');
       setTimeout(() => setStep(2), 800);
     } catch (err) {
-      setError('CSV parse karne mein error aaya!');
+      setError('Error occurred while parsing CSV!');
     }
   };
 
@@ -33,7 +33,7 @@ function CSVUpload({ setCandidates, setStep }) {
   return (
     <div className="upload-container">
       <h2>Upload Candidates CSV</h2>
-      <p className="subtitle">CSV mein yeh fields hone chahiye: name, email, role, start_date, duration, etc.</p>
+      <p className="subtitle">CSV file must contain these fields: name, email, role, start_date, duration, etc.</p>
 
       <div
         className={`dropzone ${dragging ? 'dragging' : ''}`}
@@ -45,7 +45,7 @@ function CSVUpload({ setCandidates, setStep }) {
         <div className="dropzone-icon">📂</div>
         {fileName
           ? <p className="file-name">✅ {fileName} uploaded!</p>
-          : <p>CSV file yahan drag karo <br /> ya <span className="browse">browse karo</span></p>
+          : <p>Drag and drop your CSV file here <br /> or <span className="browse">browse</span></p>
         }
         <input
           id="csvInput"

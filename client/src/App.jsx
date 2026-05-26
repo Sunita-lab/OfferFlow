@@ -16,7 +16,7 @@ function Hero({ onStart }) {
         <span className="gradient-text">OfferFlow</span>
       </h1>
       <p className="hero-subtitle-line">
-        CSV se PDF tak — ek click mein bulk offer letters bhejo
+        From CSV to inbox — offer letters in one click!
       </p>
 
       <button className="hero-cta" onClick={onStart}>

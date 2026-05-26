@@ -37,7 +37,7 @@ function PreviewSend({ selectedCandidates, selectedTemplate, emailConfig }) {
     <div className="preview-container">
       <h2>Preview & Send</h2>
       <p className="subtitle">
-        {selectedCandidates.length} candidates ko offer letter bheja jayega
+        Offer letters will be sent to{selectedCandidates.length} candidates using the <strong>{selectedTemplate?.name}</strong> template.
       </p>
 
       {/* Candidate Selector */}
