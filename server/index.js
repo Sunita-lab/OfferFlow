@@ -5,7 +5,10 @@ const dotenv = require('dotenv');
 dotenv.config();
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://offer-flow-chi.vercel.app',
+  methods: ['GET', 'POST'],
+}));
 app.use(express.json());
 
 app.use('/api/upload', require('./routes/upload'));
