@@ -19,7 +19,7 @@ function PreviewSend({ selectedCandidates, selectedTemplate, emailConfig }) {
     console.log('API URL:', import.meta.env.VITE_API_URL);
     setSending(true);
     try {
-      const res = await axios.post(`https://offerflow-server.onrender.com/api/email/send`, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/email/send`, {
         candidates: selectedCandidates,
         subject: emailConfig.subject,
         body: emailConfig.body,
