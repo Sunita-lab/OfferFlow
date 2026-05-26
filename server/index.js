@@ -6,7 +6,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: 'https://offer-flow-chi.vercel.app',
+  origin: ['https://offer-flow-chi.vercel.app', 'http://localhost:5173'],
   methods: ['GET', 'POST'],
 }));
 app.use(express.json({ limit: '50mb' }));
