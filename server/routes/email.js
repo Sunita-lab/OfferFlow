@@ -33,6 +33,7 @@ router.post('/send', async (req, res) => {
     res.json({ status: 'sent' });
 
   } catch (err) {
+    console.error('Email error:', err.message);
     res.status(500).json({ status: 'failed', error: err.message });
   }
 });
