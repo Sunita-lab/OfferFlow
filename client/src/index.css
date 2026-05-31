@@ -854,3 +854,17 @@ input[type="checkbox"] {
   .step-arrow { display: none; }
   .hero-stats { gap: 28px; }
 }
+.cell-input {
+  border: 1px solid #6C63FF;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  width: 100%;
+  outline: none;
+}
+
+.hint {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 12px;
+}

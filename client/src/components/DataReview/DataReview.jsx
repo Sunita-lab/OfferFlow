@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 function DataReview({ candidates, setSelectedCandidates, setStep }) {
-  const [selected, setSelected] = useState(
-    candidates.map((_, i) => i)
-  );
+  const [data, setData] = useState(candidates);
+  const [selected, setSelected] = useState(candidates.map((_, i) => i));
+  const [editingCell, setEditingCell] = useState(null); // {row, field}
 
   const toggleOne = (i) => {
     setSelected(prev =>
@@ -13,12 +13,18 @@ function DataReview({ candidates, setSelectedCandidates, setStep }) {
 
   const toggleAll = () => {
     setSelected(prev =>
-      prev.length === candidates.length ? [] : candidates.map((_, i) => i)
+      prev.length === data.length ? [] : data.map((_, i) => i)
     );
   };
 
+  const handleEdit = (rowIndex, field, value) => {
+    const updated = [...data];
+    updated[rowIndex] = { ...updated[rowIndex], [field]: value };
+    setData(updated);
+  };
+
   const handleNext = () => {
-    const chosen = candidates.filter((_, i) => selected.includes(i));
+    const chosen = data.filter((_, i) => selected.includes(i));
     setSelectedCandidates(chosen);
     setStep(3);
   };
@@ -28,7 +34,8 @@ function DataReview({ candidates, setSelectedCandidates, setStep }) {
   return (
     <div className="review-container">
       <h2>Data Review</h2>
-      <p className="subtitle">{selected.length} / {candidates.length} candidates selected</p>
+      <p className="subtitle">{selected.length} / {data.length} candidates selected</p>
+      <p className="hint">💡 Click any cell to edit values directly</p>
 
       <div className="table-wrapper">
         <table>
@@ -37,7 +44,7 @@ function DataReview({ candidates, setSelectedCandidates, setStep }) {
               <th>
                 <input
                   type="checkbox"
-                  checked={selected.length === candidates.length}
+                  checked={selected.length === data.length}
                   onChange={toggleAll}
                 />
               </th>
@@ -45,7 +52,7 @@ function DataReview({ candidates, setSelectedCandidates, setStep }) {
             </tr>
           </thead>
           <tbody>
-            {candidates.map((c, i) => (
+            {data.map((c, i) => (
               <tr key={i} className={selected.includes(i) ? 'selected' : ''}>
                 <td>
                   <input
@@ -54,7 +61,25 @@ function DataReview({ candidates, setSelectedCandidates, setStep }) {
                     onChange={() => toggleOne(i)}
                   />
                 </td>
-                {fields.map(f => <td key={f}>{c[f] || '—'}</td>)}
+                {fields.map(field => (
+                  <td
+                    key={field}
+                    onClick={() => setEditingCell({ row: i, field })}
+                  >
+                    {editingCell?.row === i && editingCell?.field === field ? (
+                      <input
+                        className="cell-input"
+                        autoFocus
+                        value={c[field] || ''}
+                        onChange={e => handleEdit(i, field, e.target.value)}
+                        onBlur={() => setEditingCell(null)}
+                        onKeyDown={e => e.key === 'Enter' && setEditingCell(null)}
+                      />
+                    ) : (
+                      <span>{c[field] || '—'}</span>
+                    )}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
