@@ -29,7 +29,7 @@ function DataReview({ candidates, setSelectedCandidates, setStep }) {
     setStep(3);
   };
 
-  const fields = ['name', 'email', 'role', 'start_date', 'duration', 'mode', 'organization'];
+  const fields = ['name', 'email', 'phone', 'organization', 'role', 'start_date', 'duration', 'mode', 'internship_name', 'AICTE_code'];
 
   return (
     <div className="review-container">
