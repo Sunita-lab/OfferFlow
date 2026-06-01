@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const transporter = require('../utils/mailer');
+const sgMail = require('../utils/mailer');
 
 router.post('/send', async (req, res) => {
-  console.log('Request received:', req.body?.candidate?.email); // ADD
-  console.log('pdfBase64 length:', req.body?.pdfBase64?.length); // ADD
+  console.log('Request received:', req.body?.candidate?.email);
   const { candidate, subject, body, pdfBase64 } = req.body;
 
   try {
@@ -16,20 +15,23 @@ router.post('/send', async (req, res) => {
       .replace(/{{name}}/g, candidate.name)
       .replace(/{{role}}/g, candidate.role);
 
-    const pdfBuffer = Buffer.from(pdfBase64, 'base64');
-
-    await transporter.sendMail({
-      from: process.env.SMTP_USER,
+    const msg = {
       to: candidate.email,
+      from: process.env.SMTP_USER, // SendGrid pe verified sender
       subject: populatedSubject,
       html: populatedBody,
-      attachments: [{
-        filename: `offer-letter-${candidate.name}.pdf`,
-        content: pdfBuffer,
-        contentType: 'application/pdf'
-      }]
-    });
+      attachments: [
+        {
+          filename: `offer-letter-${candidate.name}.pdf`,
+          content: pdfBase64,
+          type: 'application/pdf',
+          disposition: 'attachment',
+        }
+      ]
+    };
 
+    await sgMail.send(msg);
+    console.log('Email sent to:', candidate.email);
     res.json({ status: 'sent' });
 
   } catch (err) {
